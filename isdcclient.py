@@ -6,7 +6,7 @@ import numpy as np
 
 isdc_server="isdc.unige.ch"
 
-timeout=30
+timeout=300
 
 
 def genlc(target,utc,span):
