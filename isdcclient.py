@@ -6,25 +6,24 @@ import numpy as np
 
 isdc_server="isdc.unige.ch"
 
-timeout=300
-num_max_retries=10
-retry_delay=10
-
-
 import requests
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.timeout import Timeout
 
 def get_with_retries(url,params):
     s = requests.Session()
 
-    retries = Retry(total=5,
+    timeout=Timeout(100,100,100)
+
+    retries = Retry(total=10,
+                    read=10,
                     backoff_factor=0.1,
                     status_forcelist=[ 500, 502, 503, 504 ])
 
     s.mount('http://', HTTPAdapter(max_retries=retries))
 
-    return s.get(url,params=params)
+    return s.get(url,params=params,timeout=100)#timeout)
 
 def genlc(target,utc,span):
     return get_with_retries("http://isdc.unige.ch/~savchenk/spiacs-online/spiacs.pl", params={"requeststring": target+" "+utc+" "+span,'submit':"Submit", 'generate':'genlc'}).content
