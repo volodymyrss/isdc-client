@@ -5,13 +5,19 @@ from astropy import units as u
 import numpy as np
 
 isdc_server="isdc.unige.ch"
+ISDC_killflag_filename="/home/integral/isdc-offline-flag"
 
 import requests
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.timeout import Timeout
 
+
+
 def get_with_retries(url,params):
+    if os.path.exists(ISDC_killflag_filename):
+        raise Exception("ISDC offline")
+
     s = requests.Session()
 
     timeout=Timeout(100,100,100)
