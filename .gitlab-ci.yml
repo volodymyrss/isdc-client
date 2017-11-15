@@ -1,0 +1,22 @@
+language: python
+python:
+- '3.5'
+dist: trusty
+services:
+- docker
+before_install:
+- pip install codecov
+- pip install pytest-cov
+- pip install codacy-coverage
+install:
+- pip install .
+- pip install -r requirements.txt
+script:
+- py.test --cov=./
+after_success:
+- coverage xml
+- python-codacy-coverage -r coverage.xml
+- codecov
+env:
+  global:
+  - secure: lJmOtkBL0aEdmFgeGVQ/5CKGuF4dRdhCBXOxb5hCyyKCMGOcFIAHXKQGvlL56D3djDkqKKGj0y600fsh4TRx920mcXmVztTvCDpytKHZy1fJSTFzzikmsbDjbhNAohOoMsrUQRnUU3ReQ6+7wm0whcoSPbC/RNmagV2nDmJ3jG2YnzMkNdsRgWwhxrYyqDYlKeJe4UhjQtgyEGguxMONa6gjM7ti7oe7b8y7vKvS9XlpF+I3HbQ2wSWUu9Ai/O9j8RlVCWjIAjfeXMrVrrp4ZJd4x/fX+zCf6J1KgjgIRNrtk1kH3bTwZP5WT68HXyvKf0iYN5mUOVsl1l9CZJIX+5oPz2lpleeS9T0xqnrTvfK5/LCab/tpbEFL5nrolz9sQm9HOWWLu1G5+vYANSffUSmFay5NSkGKw4gtK+DZam5Uwz1PRdh3KCGczYo/Cx+rYLhKkmVai0eqGKQx4hz9d8GnQpW6XntKP8MgDPMfPqOwqz0WzWx2vum8hEcJrXF5QwEHaLiCmJ0ThTicy9dbUj4vJjPPQDx+a8PIeEVxSzh8xWoglb42H5CFrzhAmV4sP/DC11OQL9h5tX7cpk9Pv0+2sOv9Ou5oXEDpx0YN1tOfYhSfLKb37Z4NPHcrbuczu392TDYhCXv62rpSEBvrj3jwMG2mE0KFvCpjeuOfNKc=
