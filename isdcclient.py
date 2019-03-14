@@ -37,7 +37,7 @@ def get_with_retries(url, params):
 
 class ISDCClient(object):
 
-    def __init__(self,isdc_server="isdc.unige.ch"):
+    def __init__(self,isdc_server="www.isdc.unige.ch"):
         self.isdc_server=isdc_server
 
     @property
