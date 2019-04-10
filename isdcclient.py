@@ -73,3 +73,8 @@ class ISDCClient(object):
 
     def getscw(self,intime):
         return get_with_retries(self.isdc_url+"?requeststring="+intime,params=dict(generate="scw",submit="Submit")).content[:12]
+
+ic = ISDCClient()
+
+def genlc(self,target,utc,span,format=None):
+    return ic.genlc(self,target,utc,span,format)
