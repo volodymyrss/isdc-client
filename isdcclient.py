@@ -77,4 +77,4 @@ class ISDCClient(object):
 ic = ISDCClient()
 
 def genlc(target,utc,span,format=None):
-    return ic.genlc(self,target,utc,span,format)
+    return ic.genlc(target,utc,span,format)
