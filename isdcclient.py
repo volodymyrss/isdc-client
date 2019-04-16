@@ -78,3 +78,6 @@ ic = ISDCClient()
 
 def genlc(target,utc,span,format=None):
     return ic.genlc(target,utc,span,format)
+
+def getscw(intime):
+    return ic.getscw(intime)
