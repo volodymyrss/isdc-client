@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
         name='isdc-client',
-        version='1.0',
+        version='1.1',
         py_modules= ['isdcclient'],
         package_data     = {
             "": [

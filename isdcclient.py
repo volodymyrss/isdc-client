@@ -20,7 +20,7 @@ except ImportError:
     have_numpy = False
 
 
-def get_with_retries(url, params):
+def get_with_retries(url, params=None):
     s = requests.Session()
 
     timeout = Timeout(100, 100, 100)
@@ -32,7 +32,7 @@ def get_with_retries(url, params):
 
     s.mount('http://', HTTPAdapter(max_retries=retries))
 
-    return s.get(url, params=params, timeout=100)
+    return s.get(url, params=params, timeout=100).content.strip(b"\"\n").replace(b"\\n",b"\n")
 
 
 class ISDCClient(object):
@@ -42,11 +42,17 @@ class ISDCClient(object):
 
     @property
     def isdc_url(self):
-        return "http://%s/~savchenk/spiacs-online/spiacs.pl"%self.isdc_server
+        return "https://www.astro.unige.ch/cdci/astrooda/dispatch-data/gw/integralhk/api/v1.0/"
+        #return "http://%s/~savchenk/spiacs-online/spiacs.pl"%self.isdc_server
 
     def genlc(self,target,utc,span,format=None):
-        lc_raw=get_with_retries(self.isdc_url, params={"requeststring": target + " " + utc + " " + span, 'submit': "Submit",
-                                                'generate': 'genlc'}).content
+        url = self.isdc_url + "genlc/{target}/{t0_utc}/{dt_s}".format(target=target, t0_utc=utc, dt_s=span)
+        print(url)
+        lc_raw=get_with_retries(url)
+
+        print(lc_raw)
+
+
         if format is None:
             return lc_raw
 
@@ -72,7 +78,8 @@ class ISDCClient(object):
             return df
 
     def getscw(self,intime):
-        return get_with_retries(self.isdc_url+"?requeststring="+intime,params=dict(generate="scw",submit="Submit")).content[:12]
+        #return get_with_retries(self.isdc_url+"?requeststring="+intime,params=dict(generate="scw",submit="Submit")).content[:12]
+        return get_with_retries("https://www.astro.unige.ch/cdci/astrooda/dispatch-data/gw/timesystem/api/v1.0/converttime/ANY/{}/SCWID".format(intime))
 
 ic = ISDCClient()
 
