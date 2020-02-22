@@ -9,5 +9,5 @@ if {'pytest', 'test', 'ptr'}.intersection(sys.argv):
 
 setup(name='isdc-client',
       long_description=open('README.md').read(),
-      version="1.2.0",
+      version="1.3.0",
       setup_requires=setup_requires)
