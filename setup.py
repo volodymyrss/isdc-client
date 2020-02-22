@@ -1,17 +1,13 @@
 from setuptools import setup
+import ast
+import sys
 
-setup(
-        name='isdc-client',
-        version='1.1',
-        py_modules= ['isdcclient'],
-        package_data     = {
-            "": [
-                "*.txt",
-                "*.md",
-                "*.rst",
-                "*.py"
-                ]
-            },
-        license='Creative Commons Attribution-Noncommercial-Share Alike license',
-        long_description=open('README.md').read(),
-        )
+setup_requires = ['setuptools >= 30.3.0']
+if {'pytest', 'test', 'ptr'}.intersection(sys.argv):
+    setup_requires.append('pytest-runner')
+
+
+setup(name='isdc-client',
+      long_description=open('README.md').read(),
+      version="1.1.0",
+      setup_requires=setup_requires)
