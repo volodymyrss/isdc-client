@@ -45,12 +45,14 @@ class ISDCClient(object):
         return "https://www.astro.unige.ch/cdci/astrooda/dispatch-data/gw/integralhk/api/v1.0/"
         #return "http://%s/~savchenk/spiacs-online/spiacs.pl"%self.isdc_server
 
-    def genlc(self,target,utc,span,format=None):
+    def genlc(self,target,utc,span,format=None, debug=True):
         url = self.isdc_url + "genlc/{target}/{t0_utc}/{dt_s}".format(target=target, t0_utc=utc, dt_s=span)
-        print(url)
+    
+        if debug:
+            print(url)
+
         lc_raw=get_with_retries(url)
 
-        print(lc_raw)
 
 
         if format is None:
@@ -73,7 +75,9 @@ class ISDCClient(object):
                            delim_whitespace=True,
                            names=["ijd","seconds_relative","counts","seconds_since_midnight"],
                            skiprows=5)
-            print(df)
+    
+            if debug:
+                print(df)
             df.seconds_relative-=float(span)
             return df
 
